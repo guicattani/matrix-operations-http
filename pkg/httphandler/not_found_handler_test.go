@@ -5,14 +5,14 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/capsulemaglev/league_backend_challenge/pkg/helpers"
+	"github.com/capsulemaglev/league_backend_challenge/pkg/helper"
 )
 
 func TestNotFoundHandler(t *testing.T) {
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(NotFoundHandler)
 
-	request, err := helpers.CreateFileRequest("../../test_data/matrix.csv", "http://localhost:8080/non_existant")
+	request, err := helper.CreateFileRequest("../../test_data/matrix.csv", "http://localhost:8080/non_existant")
 	if err != nil {
 		t.Fatal(err)
 	}

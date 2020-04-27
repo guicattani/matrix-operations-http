@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/capsulemaglev/league_backend_challenge/pkg/helpers"
+	"github.com/capsulemaglev/league_backend_challenge/pkg/helper"
 )
 
 func TestHandler(t *testing.T) {
@@ -14,7 +14,7 @@ func TestHandler(t *testing.T) {
 
 	//echo
 
-	request, err := helpers.CreateFileRequest("../../test_data/matrix.csv", "http://localhost:8080/echo")
+	request, err := helper.CreateFileRequest("../../test_data/matrix.csv", "http://localhost:8080/echo")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -31,7 +31,7 @@ func TestHandler(t *testing.T) {
 	//invert
 
 	rr = httptest.NewRecorder()
-	request, err = helpers.CreateFileRequest("../../test_data/matrix.csv", "http://localhost:8080/invert")
+	request, err = helper.CreateFileRequest("../../test_data/matrix.csv", "http://localhost:8080/invert")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -48,7 +48,7 @@ func TestHandler(t *testing.T) {
 	//flatten
 
 	rr = httptest.NewRecorder()
-	request, err = helpers.CreateFileRequest("../../test_data/matrix.csv", "http://localhost:8080/flatten")
+	request, err = helper.CreateFileRequest("../../test_data/matrix.csv", "http://localhost:8080/flatten")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -65,7 +65,7 @@ func TestHandler(t *testing.T) {
 	//sum
 
 	rr = httptest.NewRecorder()
-	request, err = helpers.CreateFileRequest("../../test_data/matrix.csv", "http://localhost:8080/sum")
+	request, err = helper.CreateFileRequest("../../test_data/matrix.csv", "http://localhost:8080/sum")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -82,7 +82,7 @@ func TestHandler(t *testing.T) {
 	//multiply
 
 	rr = httptest.NewRecorder()
-	request, err = helpers.CreateFileRequest("../../test_data/matrix.csv", "http://localhost:8080/multiply")
+	request, err = helper.CreateFileRequest("../../test_data/matrix.csv", "http://localhost:8080/multiply")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -99,7 +99,7 @@ func TestHandler(t *testing.T) {
 	//invalid matrix
 
 	rr = httptest.NewRecorder()
-	request, err = helpers.CreateFileRequest("../../test_data/invalid_matrix.csv", "http://localhost:8080/echo")
+	request, err = helper.CreateFileRequest("../../test_data/invalid_matrix.csv", "http://localhost:8080/echo")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -116,7 +116,7 @@ func TestHandler(t *testing.T) {
 	//invalid csv
 
 	rr = httptest.NewRecorder()
-	request, err = helpers.CreateFileRequest("../../test_data/invalid_csv.csv", "http://localhost:8080/echo")
+	request, err = helper.CreateFileRequest("../../test_data/invalid_csv.csv", "http://localhost:8080/echo")
 	if err != nil {
 		t.Fatal(err)
 	}

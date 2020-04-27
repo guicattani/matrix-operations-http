@@ -4,12 +4,12 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/capsulemaglev/league_backend_challenge/pkg/helpers"
+	"github.com/capsulemaglev/league_backend_challenge/pkg/helper"
 )
 
 func TestReadRecords(t *testing.T) {
 	//valid
-	request, err := helpers.CreateFileRequest("../../test_data/matrix.csv", "/echo")
+	request, err := helper.CreateFileRequest("../../test_data/matrix.csv", "/echo")
 	if err != nil {
 		t.Errorf("Error creating file request for valid matrix: %s.", err.Error())
 	}
@@ -24,7 +24,7 @@ func TestReadRecords(t *testing.T) {
 	}
 
 	//non existant
-	request, err = helpers.CreateFileRequest("../../test_data/non_existant.csv", "/echo")
+	request, err = helper.CreateFileRequest("../../test_data/non_existant.csv", "/echo")
 	if err == nil {
 		t.Errorf("Error creating file request for non existant csv file.")
 	}
@@ -36,7 +36,7 @@ func TestReadRecords(t *testing.T) {
 	}
 
 	//invalid csv
-	request, err = helpers.CreateFileRequest("../../test_data/invalid_csv.csv", "/echo")
+	request, err = helper.CreateFileRequest("../../test_data/invalid_csv.csv", "/echo")
 	if err != nil {
 		t.Errorf("Error creating file request for invalid csv file: %s.", err.Error())
 	}

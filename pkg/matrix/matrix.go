@@ -9,14 +9,14 @@ import (
 type Matrix [][]string
 
 //Valid checks if the inputted matrix has only integers, at least one value and is a square.
-func (matrix Matrix) Valid() bool {
-	firstRowSize := len(matrix)
+func (m Matrix) Valid() bool {
+	firstRowSize := len(m)
 
 	if firstRowSize < 1 {
 		return false
 	}
 
-	for _, rows := range matrix {
+	for _, rows := range m {
 		if len(rows) != firstRowSize {
 			return false
 		}
@@ -31,8 +31,8 @@ func (matrix Matrix) Valid() bool {
 }
 
 //QuadrantUpperBound returns the upper coordinates of the given quadrant.
-func (matrix Matrix) QuadrantUpperBound(quadrant int) (int, int) {
-	mid := int(math.Ceil(float64(len(matrix)) / float64(2)))
+func (m Matrix) QuadrantUpperBound(quadrant int) (int, int) {
+	mid := int(math.Ceil(float64(len(m)) / float64(2)))
 	switch quadrant {
 	case 1:
 		return 0, 0
@@ -45,15 +45,15 @@ func (matrix Matrix) QuadrantUpperBound(quadrant int) (int, int) {
 }
 
 //QuadrantLowerBound returns the lower coordinates of the given quadrant.
-func (matrix Matrix) QuadrantLowerBound(quadrant int) (int, int) {
-	mid := (len(matrix) - 1) / 2
+func (m Matrix) QuadrantLowerBound(quadrant int) (int, int) {
+	mid := (len(m) - 1) / 2
 	switch quadrant {
 	case 1:
 		return mid, mid
 	case 2:
-		return mid, len(matrix) - 1
+		return mid, len(m) - 1
 	case 3:
-		return len(matrix) - 1, mid
+		return len(m) - 1, mid
 	}
-	return len(matrix) - 1, len(matrix) - 1
+	return len(m) - 1, len(m) - 1
 }
