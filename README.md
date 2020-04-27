@@ -45,7 +45,7 @@ As per specification, only square matrices with integers are permitted.
 1. To run tests simply run:
 
 ```
-go test ./pkg/...
+go test ./pkg/... -cover
 ```
 
 Example csv files are present in the folder `./test`.
