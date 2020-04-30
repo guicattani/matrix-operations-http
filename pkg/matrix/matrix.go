@@ -3,6 +3,7 @@ package matrix
 import (
 	"math"
 	"regexp"
+	"strings"
 )
 
 // Matrix defines the properties and values of the matrix
@@ -21,7 +22,7 @@ func (m Matrix) Valid() bool {
 			return false
 		}
 		for _, value := range rows {
-			match, _ := regexp.MatchString("^[-+]?\\d+$", value)
+			match, _ := regexp.MatchString("^[-+]?\\d+$", strings.TrimSpace(value))
 			if !match {
 				return false
 			}
