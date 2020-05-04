@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"strconv"
+	"strings"
 )
 
 //Sum returns the sum of integers in the matrix.
@@ -41,7 +42,7 @@ func sumSubMatrix(ch chan int, m Matrix) {
 
 	for _, row := range m {
 		for _, value := range row {
-			convertedValue, _ := strconv.Atoi(value)
+			convertedValue, _ := strconv.Atoi(strings.TrimSpace(value))
 			sum += convertedValue
 		}
 	}

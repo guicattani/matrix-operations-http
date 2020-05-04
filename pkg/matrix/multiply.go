@@ -4,6 +4,7 @@ import (
 	"errors"
 	"os"
 	"strconv"
+	"strings"
 )
 
 //Multiply returns the sum of integers in the matrix.
@@ -42,7 +43,7 @@ func multiplySubMatrix(ch chan int, m Matrix) {
 
 	for _, row := range m {
 		for _, value := range row {
-			convertedValue, _ := strconv.Atoi(value)
+			convertedValue, _ := strconv.Atoi(strings.TrimSpace(value))
 			multiplication *= convertedValue
 		}
 	}

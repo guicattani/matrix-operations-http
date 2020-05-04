@@ -98,6 +98,21 @@ func TestHandler(t *testing.T) {
 		t.Errorf("Error: Handler returned unexpected body for /sum: expected\n%s, got\n%s", "45\n", rr.Body.String())
 	}
 
+	rr = httptest.NewRecorder()
+	request, err = helper.CreateFileRequest("../../test_data/matrix_huge.csv", "http://localhost:8080/sum")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	handler.ServeHTTP(rr, request)
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("Error: Handler returned wrong status code for /echo: expected %v, got %v.", http.StatusOK, status)
+	}
+
+	if rr.Body.String() != "310\n" {
+		t.Errorf("Error: Handler returned unexpected body for /sum: expected\n%s, got\n%s", "310\n", rr.Body.String())
+	}
+
 	//multiply
 
 	rr = httptest.NewRecorder()

@@ -59,4 +59,25 @@ func TestSum(t *testing.T) {
 	if sum.Message != "55\n" {
 		t.Errorf("Expected sum response of all numbers in matrix: expected 55, got %s", sum.Message)
 	}
+
+	os.Setenv("LINES_SUBDIVISION", "10")
+	m = Matrix{
+		{"1", "1", "1", "2", "2", "2", "2", "2", "2", "2"},
+		{"1", "1", "1", "2", "2", "2", "2", "2", "2", "2"},
+		{"1", "1", "1", "2", "2", "2", "2", "2", "2", "2"},
+		{"3", "3", "3", "4", "4", "4", "4", "4", "4", "4"},
+		{"3", "3", "3", "4", "4", "4", "4", "4", "4", "4"},
+		{"3", "3", "3", "4", "4", "4", "4", "4", "4", "4"},
+		{"3", "3", "3", "4", "4", "4", "4", "4", "4", "4"},
+		{"3", "3", "3", "4", "4", "4", "4", "4", "4", "4"},
+		{"3", "3", "3", "4", "4", "4", "4", "4", "4", "4"},
+		{"3", "3", "3", "4", "4", "4", "4", "4", "4", "4"},
+	}
+
+	ch = make(chan Result)
+	go m.Sum(ch)
+	sum = <-ch
+	if sum.Message != "310\n" {
+		t.Errorf("Expected sum response of all numbers in matrix: expected 310, got %s", sum.Message)
+	}
 }
