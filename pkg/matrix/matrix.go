@@ -1,13 +1,15 @@
 package matrix
 
 import (
-	"math"
 	"regexp"
 	"strings"
 )
 
-// Matrix defines the properties and values of the matrix
+//Matrix defines the properties and values of the matrix.
 type Matrix [][]string
+
+//routineOperation defines the parametrized function passed in routine operations.
+type routineOperation func(ch chan int, m Matrix)
 
 //Valid checks if the inputted matrix has only integers, at least one value and is a square.
 func (m Matrix) Valid() bool {
@@ -31,30 +33,25 @@ func (m Matrix) Valid() bool {
 	return true
 }
 
-//QuadrantUpperBound returns the upper coordinates of the given quadrant.
-func (m Matrix) QuadrantUpperBound(quadrant int) (int, int) {
-	mid := int(math.Ceil(float64(len(m)) / float64(2)))
-	switch quadrant {
-	case 1:
-		return 0, 0
-	case 2:
-		return 0, mid
-	case 3:
-		return mid, 0
-	}
-	return mid, mid
-}
+//Runs the routine operation on given submatrix for the given buffered channels count.
+func submatrixOperationRoutine(fn routineOperation, submatrix Matrix, bufferedChannels int) []int {
+	ch := make(chan int, bufferedChannels)
 
-//QuadrantLowerBound returns the lower coordinates of the given quadrant.
-func (m Matrix) QuadrantLowerBound(quadrant int) (int, int) {
-	mid := (len(m) - 1) / 2
-	switch quadrant {
-	case 1:
-		return mid, mid
-	case 2:
-		return mid, len(m) - 1
-	case 3:
-		return len(m) - 1, mid
+	subdivisions := len(submatrix) / bufferedChannels
+
+	for i := 0; i < bufferedChannels; i++ {
+		base := i * subdivisions
+		if i+1 >= bufferedChannels {
+			go fn(ch, submatrix[base:len(submatrix)])
+		} else {
+			go fn(ch, submatrix[base:base+subdivisions])
+		}
 	}
-	return len(m) - 1, len(m) - 1
+
+	var s []int
+	for i := 0; i < bufferedChannels; i++ {
+		s = append(s, <-ch)
+	}
+
+	return s
 }

@@ -1,34 +1,44 @@
 package matrix
 
-import "strconv"
+import (
+	"os"
+	"strconv"
+)
 
-//Multiply returns the product of integers in the matrix.
+//Multiply returns the sum of integers in the matrix.
 func (m Matrix) Multiply(ch chan string) {
 	if len(m) == 1 {
 		ch <- m[0][0] + "\n"
 		return
 	}
 
-	ch2 := make(chan int, 4)
-	go multiplyQuadrantSubMatrix(ch2, m, 1)
-	go multiplyQuadrantSubMatrix(ch2, m, 2)
-	go multiplyQuadrantSubMatrix(ch2, m, 3)
-	go multiplyQuadrantSubMatrix(ch2, m, 4)
-	x, y, w, z := <-ch2, <-ch2, <-ch2, <-ch2
+	bufferedChannels, err := strconv.Atoi(os.Getenv("LINES_SUBDIVISION"))
+	if err != nil || bufferedChannels == 0 {
+		ch <- "Error converting LINES_SUBDIVISION env var to integer"
+	}
 
-	ch <- strconv.Itoa(x*y*w*z) + "\n"
+	if len(m) < bufferedChannels {
+		bufferedChannels = len(m)
+	}
+
+	s := submatrixOperationRoutine(multiplySubMatrix, m, bufferedChannels)
+
+	multiplication := 1
+	for _, value := range s {
+		multiplication *= value
+	}
+
+	ch <- strconv.Itoa(multiplication) + "\n"
 }
 
-//Multiplies all the integers in the given quadrant.
-func multiplyQuadrantSubMatrix(ch chan int, m Matrix, quadrant int) {
+//Sums all the integers in the given quadrant.
+func multiplySubMatrix(ch chan int, m Matrix) {
 	multiplication := 1
-	upperX, upperY := m.QuadrantUpperBound(quadrant)
-	lowerX, lowerY := m.QuadrantLowerBound(quadrant)
 
-	for i := upperX; i <= lowerX; i++ {
-		for j := upperY; j <= lowerY; j++ {
-			value, _ := strconv.Atoi(m[i][j])
-			multiplication *= value
+	for _, row := range m {
+		for _, value := range row {
+			convertedValue, _ := strconv.Atoi(value)
+			multiplication *= convertedValue
 		}
 	}
 

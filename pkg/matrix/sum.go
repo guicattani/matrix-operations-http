@@ -1,6 +1,7 @@
 package matrix
 
 import (
+	"os"
 	"strconv"
 )
 
@@ -11,26 +12,33 @@ func (m Matrix) Sum(ch chan string) {
 		return
 	}
 
-	ch2 := make(chan int, 4)
-	go sumQuadrantSubMatrix(ch2, m, 1)
-	go sumQuadrantSubMatrix(ch2, m, 2)
-	go sumQuadrantSubMatrix(ch2, m, 3)
-	go sumQuadrantSubMatrix(ch2, m, 4)
-	x, y, w, z := <-ch2, <-ch2, <-ch2, <-ch2
+	bufferedChannels, err := strconv.Atoi(os.Getenv("LINES_SUBDIVISION"))
+	if err != nil {
+		ch <- "Error converting LINES_SUBDIVISION env var to integer"
+	}
 
-	ch <- strconv.Itoa(x+y+w+z) + "\n"
+	if len(m) < bufferedChannels {
+		bufferedChannels = len(m)
+	}
+
+	s := submatrixOperationRoutine(sumSubMatrix, m, bufferedChannels)
+
+	sum := 0
+	for _, value := range s {
+		sum += value
+	}
+
+	ch <- strconv.Itoa(sum) + "\n"
 }
 
 //Sums all the integers in the given quadrant.
-func sumQuadrantSubMatrix(ch chan int, m Matrix, quadrant int) {
+func sumSubMatrix(ch chan int, m Matrix) {
 	sum := 0
-	upperX, upperY := m.QuadrantUpperBound(quadrant)
-	lowerX, lowerY := m.QuadrantLowerBound(quadrant)
 
-	for i := upperX; i <= lowerX; i++ {
-		for j := upperY; j <= lowerY; j++ {
-			value, _ := strconv.Atoi(m[i][j])
-			sum += value
+	for _, row := range m {
+		for _, value := range row {
+			convertedValue, _ := strconv.Atoi(value)
+			sum += convertedValue
 		}
 	}
 

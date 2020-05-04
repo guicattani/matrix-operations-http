@@ -3,12 +3,15 @@ package httphandler
 import (
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 
 	"github.com/capsulemaglev/league_backend_challenge/pkg/helper"
 )
 
 func TestHandler(t *testing.T) {
+	os.Setenv("LINES_SUBDIVISION", "4")
+
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(Handler)
 
@@ -94,6 +97,7 @@ func TestHandler(t *testing.T) {
 
 	if rr.Body.String() != "362880\n" {
 		t.Errorf("Error: Handler returned unexpected body for /multiply.")
+	os.Setenv("LINES_SUBDIVISION", "4")
 	}
 
 	//invalid matrix

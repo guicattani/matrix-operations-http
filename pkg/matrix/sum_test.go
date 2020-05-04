@@ -1,10 +1,13 @@
 package matrix
 
 import (
+	"os"
 	"testing"
 )
 
 func TestSum(t *testing.T) {
+	os.Setenv("LINES_SUBDIVISION", "4")
+
 	m := Matrix{
 		{"1"},
 	}

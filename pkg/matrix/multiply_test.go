@@ -1,8 +1,12 @@
 package matrix
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
 func TestMultiply(t *testing.T) {
+	os.Setenv("LINES_SUBDIVISION", "4")
 	m := Matrix{
 		{"1"},
 	}
