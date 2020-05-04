@@ -9,7 +9,7 @@ func TestEcho(t *testing.T) {
 	}
 
 	response := m.Echo()
-	if response != "1,2\n3,4\n" {
-		t.Errorf("Expected response to be the same as inputted.")
+	if response.Message != "1,2\n3,4\n" {
+		t.Errorf("Expected response to be the same as inputted: expected\n%s got\n%s", "1,2\n3,4\n", response.Message)
 	}
 }

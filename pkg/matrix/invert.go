@@ -3,14 +3,15 @@ package matrix
 import "strings"
 
 //Invert returns the matrix with columns and rows inverted.
-func (m Matrix) Invert() (response string) {
+func (m Matrix) Invert() Result {
+	var response string
 	im := makeInvertedMatrix(len(m), len(m[0]))
 	populateInvertedMatrix(m, im)
 
 	for _, row := range im {
 		response += strings.Join(row, ",") + "\n"
 	}
-	return
+	return Result{Message: response, Error: nil}
 }
 
 //Makes and returns an empty inverted matrix based on the

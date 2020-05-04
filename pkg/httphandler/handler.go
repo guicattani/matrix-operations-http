@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/capsulemaglev/league_backend_challenge/pkg/file"
+	"github.com/capsulemaglev/league_backend_challenge/pkg/matrix"
 )
 
 //Handler handles known routes, writes appropriate response or error.
@@ -22,7 +23,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var response string
+	var response matrix.Result
 	switch r.URL.Path {
 	case "/echo":
 		response = mtx.Echo()
@@ -31,14 +32,20 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	case "/flatten":
 		response = mtx.Flatten()
 	case "/sum":
-		ch := make(chan string)
+		ch := make(chan matrix.Result)
 		go mtx.Sum(ch)
 		response = <-ch
 	case "/multiply":
-		ch := make(chan string)
+		ch := make(chan matrix.Result)
 		go mtx.Multiply(ch)
 		response = <-ch
 	}
 
-	fmt.Fprint(w, response)
+	if response.Error != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprint(w, response.Error)
+		return
+	}
+
+	fmt.Fprint(w, response.Message)
 }

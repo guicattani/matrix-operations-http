@@ -11,8 +11,8 @@ func TestInvert(t *testing.T) {
 	}
 
 	response := m.Invert()
-	if response != "1,3\n2,4\n" {
-		t.Errorf("Expected response to be a inverted matrix of inputted.")
+	if response.Message != "1,3\n2,4\n" {
+		t.Errorf("Expected response to be a inverted matrix of inputted: expected\n%s got\n%s", "1,3\n2,4\n", response.Message)
 	}
 }
 
@@ -20,12 +20,12 @@ func TestMakeInvertedMatrix(t *testing.T) {
 	m := makeInvertedMatrix(1, 1)
 
 	if len(m) != 1 || len(m[0]) != 1 {
-		t.Errorf("Expected returned matrix to have size 1x1.")
+		t.Errorf("Expected returned matrix to have size 1x1, is %vx%v", len(m), len(m[0]))
 	}
 
 	m = makeInvertedMatrix(1, 2)
 	if len(m) != 2 || len(m[0]) != 1 {
-		t.Errorf("Expected returned matrix to have size 2x1.")
+		t.Errorf("Expected returned matrix to have size 2x1, is %vx%v", len(m), len(m[0]))
 	}
 }
 

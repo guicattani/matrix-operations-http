@@ -20,19 +20,19 @@ func TestReadRecords(t *testing.T) {
 	}
 
 	if len(records) != 3 {
-		t.Errorf("Expected valid matrix returned records to have 3 items in a row.")
+		t.Errorf("Expected valid matrix returned records to have 3 items in a row: expected 3, got %v", len(records))
 	}
 
 	//non existant
 	request, err = helper.CreateFileRequest("../../test_data/non_existant.csv", "/echo")
 	if err == nil {
-		t.Errorf("Error creating file request for non existant csv file.")
+		t.Errorf("Error creating file request for non existant csv file: %s", err.Error())
 	}
 
 	invalidRequest, _ := http.NewRequest("POST", "/echo", nil)
 	records, err = ReadRecords(invalidRequest)
 	if err == nil {
-		t.Errorf("Error, created records for non existant csv.")
+		t.Errorf("Error, created records for non existant csv: %s.", err.Error())
 	}
 
 	//invalid csv
@@ -43,6 +43,6 @@ func TestReadRecords(t *testing.T) {
 
 	records, err = ReadRecords(request)
 	if err == nil {
-		t.Errorf("Error, created records for invalid csv file.")
+		t.Errorf("Error, created records for invalid csv file: %s.", err.Error())
 	}
 }

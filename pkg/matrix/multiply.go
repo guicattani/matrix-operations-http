@@ -1,20 +1,25 @@
 package matrix
 
 import (
+	"errors"
 	"os"
 	"strconv"
 )
 
 //Multiply returns the sum of integers in the matrix.
-func (m Matrix) Multiply(ch chan string) {
+func (m Matrix) Multiply(ch chan Result) {
 	if len(m) == 1 {
-		ch <- m[0][0] + "\n"
+		ch <- Result{Message: m[0][0] + "\n", Error: nil}
 		return
 	}
 
 	bufferedChannels, err := strconv.Atoi(os.Getenv("LINES_SUBDIVISION"))
 	if err != nil || bufferedChannels == 0 {
-		ch <- "Error converting LINES_SUBDIVISION env var to integer"
+		ch <- Result{
+			Message: "",
+			Error:   errors.New("error converting LINES_SUBDIVISION env var to integer"),
+		}
+		return
 	}
 
 	if len(m) < bufferedChannels {
@@ -28,7 +33,7 @@ func (m Matrix) Multiply(ch chan string) {
 		multiplication *= value
 	}
 
-	ch <- strconv.Itoa(multiplication) + "\n"
+	ch <- Result{Message: strconv.Itoa(multiplication) + "\n", Error: nil}
 }
 
 //Sums all the integers in the given quadrant.

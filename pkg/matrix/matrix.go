@@ -8,6 +8,12 @@ import (
 //Matrix defines the properties and values of the matrix.
 type Matrix [][]string
 
+//Result is used to communicate result between operation calls and http handler.
+type Result struct {
+	Message string
+	Error   error
+}
+
 //routineOperation defines the parametrized function passed in routine operations.
 type routineOperation func(ch chan int, m Matrix)
 
