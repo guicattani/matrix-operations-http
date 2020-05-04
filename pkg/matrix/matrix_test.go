@@ -39,11 +39,15 @@ func TestValid(t *testing.T) {
 		t.Errorf("Expected squared integer matrix to be valid.")
 	}
 
+	//empty matrix
+
 	m = Matrix{}
 
 	if m.Valid() {
 		t.Errorf("Expected empty matrix not to be valid.")
 	}
+
+	//matrix with non integers
 
 	m = Matrix{
 		{"1", "A"},
@@ -53,6 +57,8 @@ func TestValid(t *testing.T) {
 	if m.Valid() {
 		t.Errorf("Expected matrix with non integers not to be valid.")
 	}
+
+	//non-square matrices
 
 	m = Matrix{
 		{"1", "1"},
