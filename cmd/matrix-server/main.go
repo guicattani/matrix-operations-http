@@ -39,10 +39,13 @@ func main() {
 //Variables should be capitalized and separated by a single "="
 //with no whitespaces around it and with one variable per line.
 func readDotEnv() error {
-	dat, err := ioutil.ReadFile("../../.env")
+	dat, err := ioutil.ReadFile("./.env")
 
 	if err != nil {
-		return err
+		dat, err = ioutil.ReadFile("../../.env")
+		if err != nil {
+			return err
+		}
 	}
 
 	lines := strings.Split(bytesToString(dat), "\n")

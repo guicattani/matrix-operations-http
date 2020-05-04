@@ -8,6 +8,8 @@ func (m Matrix) Flatten() Result {
 	for _, row := range m {
 		response += strings.Join(row, ",") + ","
 	}
+	response = strings.ReplaceAll(response, "+", "")
+	response = strings.ReplaceAll(response, " ", "")
 	response = strings.TrimSuffix(response, ",") + "\n"
 	return Result{Message: response, Error: nil}
 }

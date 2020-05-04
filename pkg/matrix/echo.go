@@ -8,5 +8,7 @@ func (m Matrix) Echo() Result {
 	for _, row := range m {
 		response += strings.Join(row, ",") + "\n"
 	}
+	response = strings.ReplaceAll(response, "+", "")
+	response = strings.ReplaceAll(response, " ", "")
 	return Result{Message: response, Error: nil}
 }
