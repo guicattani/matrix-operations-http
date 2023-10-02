@@ -1,10 +1,3 @@
-## Install
-As this is a private repository on Github you need to create the project's folder in your GOPATH src folder.
-Create a folder under:
-```
-[GOPATH]/src/github.com/capsulemaglev/league_backend_challenge
-```
-Access the folder and proceed to either build or run.
 
 ## How to build
 
